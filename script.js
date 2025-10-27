@@ -1,0 +1,107 @@
+   // Carrega os dados do JSON
+   async function carregarDados() {
+    const response = await fetch("dados.json")
+    return response.json()
+
+}
+
+let dados = [
+        {"codigo":1,"estado":"SP","produto":"Placa Mãe","quantidade":5,"valorUnitario":750,"loja":"InfoTech"},
+        {"codigo":2,"estado":"RJ","produto":"HD 1TB","quantidade":3,"valorUnitario":350,"loja":"PC World"},
+        {"codigo":3,"estado":"MG","produto":"Fonte 500W","quantidade":4,"valorUnitario":250,"loja":"MegaInfo"},
+        {"codigo":4,"estado":"SP","produto":"Teclado Mecânico","quantidade":6,"valorUnitario":280,"loja":"TechStore"},
+        {"codigo":5,"estado":"RS","produto":"Mouse Gamer","quantidade":8,"valorUnitario":150,"loja":"CyberShop"},
+        {"codigo":6,"estado":"PR","produto":"Monitor 24","quantidade":2,"valorUnitario":950,"loja":"InfoCenter"},
+        {"codigo":7,"estado":"SC","produto":"SSD 512GB","quantidade":5,"valorUnitario":420,"loja":"DataShop"},
+        {"codigo":8,"estado":"SP","produto":"Memória RAM 16GB","quantidade":7,"valorUnitario":320,"loja":"TecBrasil"},
+        {"codigo":9,"estado":"BA","produto":"Processador i5","quantidade":4,"valorUnitario":1200,"loja":"CompStore"},
+        {"codigo":10,"estado":"RJ","produto":"Placa de Vídeo GTX 1660","quantidade":3,"valorUnitario":2100,"loja":"PC Gamer"},
+        {"codigo":11,"estado":"PE","produto":"HD Externo 2TB","quantidade":2,"valorUnitario":520,"loja":"InfoMais"},
+        {"codigo":12,"estado":"MG","produto":"Gabinete ATX","quantidade":6,"valorUnitario":300,"loja":"MegaInfo"},
+        {"codigo":13,"estado":"SP","produto":"Cooler CPU","quantidade":5,"valorUnitario":160,"loja":"InfoTech"},
+        {"codigo":14,"estado":"BA","produto":"Headset","quantidade":4,"valorUnitario":210,"loja":"CompStore"},
+        {"codigo":15,"estado":"RS","produto":"Notebook","quantidade":2,"valorUnitario":3800,"loja":"CyberShop"},
+        {"codigo":16,"estado":"SP","produto":"Webcam HD","quantidade":3,"valorUnitario":190,"loja":"TecBrasil"},
+        {"codigo":17,"estado":"GO","produto":"Mousepad Gamer","quantidade":6,"valorUnitario":60,"loja":"PC World"},
+        {"codigo":18,"estado":"RJ","produto":"Hub USB 3.0","quantidade":4,"valorUnitario":120,"loja":"TechStore"},
+        {"codigo":19,"estado":"SC","produto":"Cabo HDMI","quantidade":10,"valorUnitario":35,"loja":"DataShop"},
+        {"codigo":20,"estado":"SP","produto":"Cadeira Gamer","quantidade":2,"valorUnitario":1300,"loja":"InfoTech"},
+        {"codigo":21,"estado":"MG","produto":"Teclado USB","quantidade":8,"valorUnitario":90,"loja":"MegaInfo"},
+        {"codigo":22,"estado":"PR","produto":"SSD 1TB","quantidade":3,"valorUnitario":750,"loja":"InfoCenter"},
+        {"codigo":23,"estado":"SP","produto":"Monitor 27","quantidade":2,"valorUnitario":1500,"loja":"TecBrasil"},
+        {"codigo":24,"estado":"RS","produto":"Caixa de Som","quantidade":5,"valorUnitario":220,"loja":"CyberShop"},
+        {"codigo":25,"estado":"RJ","produto":"Pen Drive 64GB","quantidade":12,"valorUnitario":55,"loja":"PC World"},
+        {"codigo":26,"estado":"BA","produto":"Placa Mãe AMD","quantidade":3,"valorUnitario":850,"loja":"CompStore"},
+        {"codigo":27,"estado":"GO","produto":"Teclado Bluetooth","quantidade":4,"valorUnitario":180,"loja":"PC World"},
+        {"codigo":28,"estado":"SC","produto":"Mouse Sem Fio","quantidade":6,"valorUnitario":120,"loja":"DataShop"},
+        {"codigo":29,"estado":"SP","produto":"Adaptador Wi-Fi","quantidade":5,"valorUnitario":90,"loja":"InfoTech"},
+        {"codigo":30,"estado":"MG","produto":"Roteador Wi-Fi","quantidade":3,"valorUnitario":320,"loja":"MegaInfo"}
+    ]
+
+const test = carregarDados()
+let estadoInput = document.getElementById("estadoInput").value
+    
+// Busca e prepara os dados
+function buscarDados() {
+    // Filtra os produtos pelo estado
+    estadoInput = document.getElementById("estadoInput").value
+    let dadosFiltrados = []
+    for (let index = 0; index < dados.length; index++) {
+        const element = dados[index];
+
+        if (element.estado == estadoInput) {
+            dadosFiltrados.push(element)
+        }
+        
+    }
+
+    // Quantidade total dos produtos dos dados filtrados
+    let quantidade = 0
+
+    for (let index = 0; index < dadosFiltrados.length; index++) {
+        const element = dadosFiltrados[index];
+        quantidade += element.quantidade
+        
+    }
+
+    // Valor total levando em consideração a quantidade
+    let valor = 0
+
+    for (let index = 0; index < dadosFiltrados.length; index++) {
+        const element = dadosFiltrados[index];
+        valor += element.valorUnitario * element.quantidade
+        
+    }
+
+    mostrarDados(dadosFiltrados, estadoInput, quantidade, valor)
+}
+
+// Mostra os dados no HTML
+function mostrarDados(dados, estado, quantidade, valor) {
+    const resultado = document.getElementById("resultado")
+    const registros = document.getElementById("registros")
+    registros.innerHTML = ''
+    const estadoResultado = document.getElementById("estadoResultado")
+    const quantidadeResultado = document.getElementById("quantidadeResultado")
+    const valorResultado = document.getElementById("valorResultado")
+
+    // Resultado se torna visível
+    resultado.style.visibility = "visible"
+
+    estadoResultado.innerHTML = "Estado: " + estado
+    quantidadeResultado.innerHTML = "Quantidade total vendida: " + quantidade
+    valorResultado.innerHTML = "Valor total: R$ " + valor
+
+    // Mostra as informações na div de registros
+    for (let index = 0; index < dados.length; index++) {
+        const element = dados[index];
+        const divInfo = document.createElement('div')
+        const div = document.createElement('div')
+        divInfo.innerHTML += element.produto + ' - ' + element.loja
+        div.innerHTML += "Quantidade: " + element.quantidade  + " | " + "Valor Unitário: " + "R$ " + element.valorUnitario
+        const hr = document.createElement('hr')
+        divInfo.appendChild(div)
+        divInfo.appendChild(hr)
+        registros.appendChild(divInfo)
+    }
+}
